@@ -146,18 +146,6 @@
   color: "#bc5123"
   w: 1080
   h: 1080
-- file: "122"
-  alt: "Cat wearing a face mask as a hood"
-  date: 2022-11-18
-  color: "#b69679"
-  w: 864
-  h: 1080
-- file: "100"
-  alt: "Two cats asleep on a cat tree"
-  date: 2022-12-20
-  color: "#7c6859"
-  w: 763
-  h: 954
 - file: "047"
   alt: "Wrecked car at night"
   date: 2020-03-01
@@ -262,12 +250,6 @@
   color: "#5d4d37"
   w: 1280
   h: 1600
-- file: "090"
-  alt: "Black cat peering into the camera upside down"
-  date: 2024-05-04
-  color: "#ac9678"
-  w: 1440
-  h: 1440
 - file: "046"
   alt: "Colourful pinwheels at night"
   date: 2024-10-12
@@ -326,12 +308,6 @@
   color: "#6e5633"
   w: 1280
   h: 1600
-- file: "124"
-  alt: "Lampshade beside a guitar"
-  date: 2023-01-28
-  color: "#786b45"
-  w: 825
-  h: 1031
 - file: "151"
   alt: "Yellow building covered in murals"
   date: 2024-02-26
