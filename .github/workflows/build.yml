@@ -1,0 +1,26 @@
+name: Build check
+
+# Builds the site the way GitHub Pages does (same Jekyll and plugin versions), so a Liquid or config error fails here
+# instead of on the live site. It does not deploy; Pages still builds and publishes master itself.
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          destination: ./_site
+      - name: Check the pages that must exist
+        run: |
+          for f in index.html work/index.html publications/index.html blogs/index.html \
+                   projects/pik3ca-benchmark/index.html feed/blogs.xml sitemap.xml; do
+            test -s "_site/$f" || { echo "missing: $f"; exit 1; }
+          done
