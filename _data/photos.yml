@@ -38,6 +38,12 @@
   color: "#994d3c"
   w: 1279
   h: 1600
+- file: "095"
+  alt: "Chandelier in a red stairwell"
+  date: 2025-05-04
+  color: "#402a22"
+  w: 1280
+  h: 1600
 - file: "024"
   alt: "Sunset clouds over a building"
   color: "#af6844"
@@ -66,6 +72,12 @@
   place: "Safdarjung's Tomb, Delhi"
   date: 2024-06-05
   color: "#8f5d2c"
+  w: 1280
+  h: 1600
+- file: "086"
+  alt: "Plate of nachos in warm light"
+  date: 2022-02-17
+  color: "#974412"
   w: 1280
   h: 1600
 - file: "065"
@@ -124,6 +136,12 @@
   color: "#a06f3b"
   w: 1280
   h: 1600
+- file: "082"
+  alt: "Pizzeria sign under string lights at night"
+  date: 2025-05-04
+  color: "#4b2b18"
+  w: 1280
+  h: 1600
 - file: "038"
   alt: "Carriage horse in harness"
   date: 2024-08-20
@@ -154,6 +172,18 @@
   color: "#5d4935"
   w: 1080
   h: 1080
+- file: "085"
+  alt: "Cane chairs in a bright cafe"
+  date: 2024-06-17
+  color: "#5d4d37"
+  w: 1280
+  h: 1600
+- file: "090"
+  alt: "Black cat peering into the camera upside down"
+  date: 2024-05-04
+  color: "#ac9678"
+  w: 1440
+  h: 1440
 - file: "046"
   alt: "Colourful pinwheels at night"
   date: 2024-10-12
@@ -165,6 +195,12 @@
   place: "Hawa Mahal, Jaipur"
   date: 2025-03-16
   color: "#a15c21"
+  w: 1280
+  h: 1600
+- file: "091"
+  alt: "Goats under a tree in the desert"
+  date: 2023-02-18
+  color: "#9e7b4d"
   w: 1280
   h: 1600
 - file: "016"
@@ -215,11 +251,22 @@
   color: "#796532"
   w: 1440
   h: 1440
+- file: "081"
+  alt: "Shopfronts on a market street at night"
+  date: 2026-03-07
+  color: "#5c4b29"
+  w: 1205
+  h: 1600
 - file: "072"
   alt: "Carved wooden windows on a sandstone street"
   place: "Jaisalmer"
   date: 2023-06-16
   color: "#81602d"
+  w: 1280
+  h: 1600
+- file: "084"
+  alt: "Lamps glowing in a dim cafe corner"
+  color: "#5a3c0d"
   w: 1280
   h: 1600
 - file: "052"
@@ -234,6 +281,12 @@
   color: "#5c593a"
   w: 1080
   h: 1080
+- file: "083"
+  alt: "Evening traffic below an elevated metro line"
+  date: 2023-10-18
+  color: "#593e19"
+  w: 1280
+  h: 1600
 - file: "071"
   alt: "Pavilion standing in Gadisar Lake"
   place: "Gadisar Lake, Jaisalmer"
@@ -282,6 +335,12 @@
   color: "#36382c"
   w: 1280
   h: 1600
+- file: "092"
+  alt: "Dog sitting in a foggy park"
+  date: 2024-01-16
+  color: "#464835"
+  w: 1440
+  h: 1440
 - file: "003"
   alt: "Bare-branched tree against a pink and violet dusk"
   color: "#2a380a"
@@ -294,6 +353,12 @@
   color: "#4e5c34"
   w: 1080
   h: 1080
+- file: "089"
+  alt: "Pug lying on grass"
+  date: 2021-06-19
+  color: "#416d2b"
+  w: 1080
+  h: 1350
 - file: "009"
   alt: "Path through a bamboo grove"
   place: "Assam"
@@ -321,6 +386,16 @@
   color: "#16201e"
   w: 1280
   h: 1600
+- file: "093"
+  alt: "Bus passing a zebra crossing in the rain"
+  color: "#1d312f"
+  w: 1280
+  h: 1600
+- file: "094"
+  alt: "Empty metro coach with blue seats"
+  color: "#1b2829"
+  w: 1280
+  h: 1600
 - file: "055"
   alt: "Golden Temple across the water"
   place: "Golden Temple, Amritsar"
@@ -340,6 +415,12 @@
   color: "#579dba"
   w: 1280
   h: 1600
+- file: "087"
+  alt: "Tangled wires over an old city lane"
+  date: 2023-08-13
+  color: "#425d63"
+  w: 1440
+  h: 1080
 - file: "048"
   alt: "Ferris wheel from below"
   date: 2024-09-24
@@ -467,6 +548,12 @@
   color: "#7b8285"
   w: 1280
   h: 1600
+- file: "096"
+  alt: "Black lattice sculpture in a white gallery"
+  date: 2024-02-11
+  color: "#747175"
+  w: 1280
+  h: 1600
 - file: "066"
   alt: "Scalloped arch framing a garden and palace"
   place: "Lucknow"
@@ -486,6 +573,12 @@
   color: "#4f564e"
   w: 1440
   h: 1440
+- file: "088"
+  alt: "Drum kit on a stage"
+  date: 2024-01-28
+  color: "#4e4d4a"
+  w: 1280
+  h: 1600
 - file: "006"
   alt: "Sunbeam cutting across a wooded path"
   date: 2026-10-31

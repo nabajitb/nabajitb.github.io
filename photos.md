@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Photos
-description: "Eighty photographs arranged by colour, from red through gold, green and blue to grey."
+description: "Photographs of trees, skies, streets and old buildings, arranged by colour, starting from a different one on every visit."
 permalink: /photos/
 show_title: false
 background: none  # no protein animation behind the photographs

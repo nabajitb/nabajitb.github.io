@@ -1,5 +1,5 @@
-/* Photos page: a wall of photographs ordered around the colour wheel.
-   A spectrum strip indexes the page; below it the photos form one tight wall. */
+/* Photos page: one tight wall of photographs ordered around the colour wheel.
+   photos.js starts the wheel at a random colour on every visit; the spectrum strip follows. */
 
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
