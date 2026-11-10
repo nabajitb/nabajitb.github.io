@@ -1,13 +1,12 @@
-/* Photos page: a photo essay ordered around the colour wheel.
-   A spectrum strip indexes the page; rows cycle through solo, pair, side and trio layouts. */
+/* Photos page: a wall of photographs ordered around the colour wheel.
+   A spectrum strip indexes the page; below it the photos form one tight wall. */
 
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 }
 
 .ph-note,
-.ph-photo figcaption,
-.ph-date,
+.ph-cap,
 .ph-lb-cap,
 .ph-lb-count {
   font-family: var(--font-mono);
@@ -33,7 +32,7 @@
 .ph-spectrum {
   display: flex;
   height: 34px;
-  margin-bottom: clamp(3.5rem, 9vw, 6.5rem);
+  margin-bottom: 6px;
 }
 
 .ph-spectrum a {
@@ -48,114 +47,64 @@
   transform: scaleY(1.45);
 }
 
-/* The essay runs wider than the 880px text column. */
-.ph-essay {
-  --ph-w: min(1040px, 100vw - 48px);
+/* The wall runs wider than the 880px text column: tight 4:5 tiles, read left to right. */
+.ph-wall {
+  --ph-w: min(1080px, 100vw - 48px);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
   width: var(--ph-w);
   margin-left: calc(50% - var(--ph-w) / 2);
 }
 
-.ph-row {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: clamp(14px, 4.5vw, 64px);
-  margin-bottom: clamp(4rem, 11vw, 8.5rem);
-}
-
 .ph-photo {
-  margin: 0;
-  scroll-margin-top: 6rem;
-}
-
-.ph-photo a {
+  position: relative;
   display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--c);
+  scroll-margin-top: 6rem;
 }
 
 .ph-photo img {
   display: block;
   width: 100%;
-  height: auto;
-  border-radius: 2px;
-  box-shadow: 0 22px 44px -22px rgba(0, 0, 0, 0.42);
-  transition: transform 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out);
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  transition: transform 0.7s var(--ease-out);
 }
 
-.ph-photo a:hover img,
-.ph-photo a:focus-visible img {
-  transform: translateY(-4px);
-  box-shadow: 0 30px 50px -22px rgba(0, 0, 0, 0.5);
+.ph-photo:hover img,
+.ph-photo:focus-visible img {
+  transform: scale(1.04);
 }
 
-.ph-photo figcaption {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 12px;
-  margin-top: 14px;
-}
-
-.ph-photo figcaption i {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--c);
-  margin-right: -4px;
-}
-
-.ph-solo .ph-photo { width: min(100%, 500px); }
-
-.ph-pair .ph-photo { width: min(46%, 400px); }
-.ph-pair .ph-photo:last-child,
-.ph-pair.ph-flip .ph-photo:first-child { margin-top: clamp(2.5rem, 9vw, 7rem); }
-.ph-pair.ph-flip .ph-photo:last-child { margin-top: 0; }
-
-.ph-trio { gap: clamp(8px, 3vw, 40px); }
-.ph-trio .ph-photo { width: min(31%, 300px); }
-.ph-trio .ph-photo:nth-child(2) { margin-top: clamp(1.5rem, 5vw, 4rem); }
-
-.ph-side { align-items: center; }
-.ph-side.ph-flip { flex-direction: row-reverse; }
-.ph-side .ph-photo { width: min(54%, 440px); }
-
-/* Beside a photo: its number in the sequence, then where and when. */
-.ph-aside {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: min(38%, 280px);
-}
-
-.ph-flip .ph-aside {
-  text-align: right;
-  align-items: flex-end;
-}
-
-.ph-no {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(3.2rem, 11vw, 6.5rem);
-  line-height: 0.9;
-  color: var(--line);
-}
-
-.ph-place {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: clamp(1.1rem, 2.6vw, 1.55rem);
-  line-height: 1.2;
-}
-
-/* Rows rise in as they are reached. The class is added by script, so nothing hides without it. */
-.ph-anim .ph-row {
+.ph-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.8rem 0.7rem 0.6rem;
+  color: #f4efe6;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.66), rgba(0, 0, 0, 0));
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+  transition: opacity 0.3s ease;
 }
 
-.ph-anim .ph-row.in {
+.ph-photo:hover .ph-cap,
+.ph-photo:focus-visible .ph-cap {
   opacity: 1;
-  transform: none;
+}
+
+/* Tiles fade in as they are reached. The class is added by script, so nothing hides without it. */
+.ph-anim .ph-photo {
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-out);
+}
+
+.ph-anim .ph-photo.in {
+  opacity: 1;
 }
 
 /* Full-screen viewer */
@@ -223,16 +172,14 @@
 .ph-lb-next { right: 0.8rem; }
 
 @media (max-width: 760px) {
-  .ph-essay { --ph-w: 100%; }
-  .ph-spectrum { height: 28px; }
-  .ph-pair .ph-photo { width: 48%; }
-  .ph-trio .ph-photo figcaption span:last-child:not(:first-of-type) { display: none; }
-  .ph-side .ph-photo { width: 60%; }
-  .ph-aside { width: 36%; }
+  .ph-wall { --ph-w: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; }
+  .ph-spectrum { height: 26px; margin-bottom: 3px; }
+  .ph-cap { display: none; }
   .ph-lb-prev, .ph-lb-next { top: auto; bottom: 4.2rem; transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ph-photo img,
+  .ph-cap,
   .ph-spectrum a { transition: none; }
 }

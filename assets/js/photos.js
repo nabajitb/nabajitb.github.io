@@ -1,23 +1,23 @@
-// Photos page: rows rise in on scroll, "random" jumps to a photo, and a photo opens full screen.
+// Photos page: tiles fade in on scroll, "random" jumps to a photo, and a photo opens full screen.
 (function () {
-  var essay = document.querySelector('.ph-essay');
+  var essay = document.querySelector('.ph-wall');
   if (!essay) return;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var figures = Array.prototype.slice.call(essay.querySelectorAll('.ph-photo'));
-  var items = figures.map(function (f) {
-    var a = f.querySelector('a'), img = f.querySelector('img');
-    return { el: f, link: a, full: a.href, alt: img.alt, caption: a.getAttribute('data-caption') || '', img: img };
+  var items = figures.map(function (a) {
+    var img = a.querySelector('img');
+    return { el: a, link: a, full: a.href, alt: img.alt, caption: a.getAttribute('data-caption') || '', img: img };
   });
 
-  // Rows rise in as they are reached.
+  // Tiles fade in as they are reached.
   if (!reduce && 'IntersectionObserver' in window) {
     essay.classList.add('ph-anim');
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
       });
-    }, { rootMargin: '0px 0px -8% 0px' });
-    essay.querySelectorAll('.ph-row').forEach(function (r) { io.observe(r); });
+    }, { rootMargin: '0px 0px -4% 0px' });
+    figures.forEach(function (f) { io.observe(f); });
   }
 
   // Random: scroll to a photo picked at random.
@@ -29,8 +29,9 @@
       var i;
       do { i = Math.floor(Math.random() * items.length); } while (items.length > 1 && i === last);
       last = i;
-      items[i].el.closest('.ph-row').classList.add('in');
+      items[i].el.classList.add('in');
       items[i].el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+      items[i].el.focus({ preventScroll: true });
     });
   }
 
