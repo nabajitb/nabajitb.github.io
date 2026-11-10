@@ -2,12 +2,16 @@
 """Import Medium posts (from the RSS feed) into the Jekyll `_blogs` collection.
 
 - Each post becomes _blogs/<slug>.md with front matter + the post HTML.
-- Images are downloaded to assets/images/blogs/<slug>/ and links rewritten.
+- Images are downloaded to assets/images/blogs/<slug>/ as WebP (needs Pillow), with width/height set so the page
+  does not jump as they load, and links rewritten. The first image is also saved as og.jpg for link previews,
+  since not every preview fetcher reads WebP.
+- An image with no alt text takes its caption as alt; write a real description by hand where it matters.
 - Posts that already exist are skipped, so manual edits are kept.
 
 Usage: python3 scripts/import_medium.py [--force]
 """
 import html
+import io
 import json
 import os
 import re
@@ -51,6 +55,40 @@ def ext_for(url, ctype):
     return "jpg"
 
 
+def to_webp(data):
+    """PNG/JPEG bytes -> (WebP bytes, width, height). Raises if Pillow is missing or the data is not an image."""
+    from PIL import Image
+    im = Image.open(io.BytesIO(data))
+    im = im.convert("RGBA" if "A" in im.getbands() or "transparency" in im.info else "RGB")
+    im.thumbnail((1600, 1600))
+    out = io.BytesIO()
+    im.save(out, "WEBP", quality=82, method=6)
+    return out.getvalue(), im.width, im.height
+
+
+def to_og_jpeg(data):
+    """Image bytes -> JPEG bytes for the link-preview card (transparency flattened onto white)."""
+    from PIL import Image
+    im = Image.open(io.BytesIO(data)).convert("RGBA")
+    flat = Image.new("RGB", im.size, "white")
+    flat.paste(im, mask=im.getchannel("A"))
+    flat.thumbnail((1200, 1200))
+    out = io.BytesIO()
+    flat.save(out, "JPEG", quality=85, optimize=True, progressive=True)
+    return out.getvalue()
+
+
+def caption_alts(body):
+    """Give each <img alt=""> inside a <figure> its <figcaption> text as alt."""
+    def fix(m):
+        cap = re.search(r"<figcaption>(.*?)</figcaption>", m.group(0), flags=re.S)
+        if not cap:
+            return m.group(0)
+        text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", cap.group(1)))).strip()
+        return m.group(0).replace('alt=""', 'alt="%s"' % html.escape(text, quote=True), 1) if text else m.group(0)
+    return re.sub(r"<figure>.*?</figure>", fix, body, flags=re.S)
+
+
 def clean_body(body, slug):
     # Drop Medium's tracking pixel.
     body = re.sub(r'<img[^>]+medium\.com/_/stat[^>]*>', "", body)
@@ -91,14 +129,22 @@ def clean_body(body, slug):
             return tag
         count[0] += 1
         data, ctype = fetch(html.unescape(src))
-        name = "%d.%s" % (count[0], ext_for(src, ctype))
+        ext, size = ext_for(src, ctype), ""
+        if ext in ("png", "jpg"):
+            if count[0] == 1:
+                with open(os.path.join(IMG_DIR, slug, "og.jpg"), "wb") as f:
+                    f.write(to_og_jpeg(data))
+                images.append("/assets/images/blogs/%s/og.jpg" % slug)
+            data, w, h = to_webp(data)
+            ext, size = "webp", 'width="%d" height="%d" ' % (w, h)
+        name = "%d.%s" % (count[0], ext)
         with open(os.path.join(IMG_DIR, slug, name), "wb") as f:
             f.write(data)
         local = "/assets/images/blogs/%s/%s" % (slug, name)
         images.append(local)
         tag = tag.replace(src, local)
-        return tag.replace("<img ", '<img loading="lazy" ', 1)
-    body = re.sub(r"<img[^>]*>", fix_img, body)
+        return tag.replace("<img ", '<img loading="lazy" ' + size, 1)
+    body = caption_alts(re.sub(r"<img[^>]*>", fix_img, body))
 
     return body.strip(), images
 

@@ -13,6 +13,7 @@
   var FEED = 'https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?filter=posts_no_replies&limit=100&actor=' +
     encodeURIComponent(handle);
   var PAGES = 10;  // up to 1000 posts back, so finished books stay in the library
+  var CACHE_KEY = 'reading-posts', CACHE_MIN = 10, CACHE_FOR = [handle, tag, doneTag].join('|');
 
   function feature(f) { return f.features && f.features[0] || {}; }
   function isTag(f) { return feature(f).$type === 'app.bsky.richtext.facet#tag'; }
@@ -156,20 +157,50 @@
     return a;
   }
 
-  // Pages through the feed with Bluesky's cursor; returns this account's own posts, newest first.
+  // Pages through the feed with Bluesky's cursor; returns this account's own tagged posts, newest first, and whether
+  // every page arrived.
   function fetchPosts() {
     var all = [];
     function page(cursor, n) {
       return fetch(FEED + (cursor ? '&cursor=' + encodeURIComponent(cursor) : '')).then(function (r) {
         return r.ok ? r.json() : null;
-      }).then(function (d) {
-        (d && d.feed || []).forEach(function (f) {
-          if (f.post && f.post.author && f.post.author.handle === handle) all.push(f.post);  // skip reposts
+      }, function () { return null; }).then(function (d) {
+        if (!d) return { posts: all, complete: false };  // a failed page: keep what came before it
+        (d.feed || []).forEach(function (f) {
+          var p = f.post;
+          if (!p || !p.author || p.author.handle !== handle) return;  // skip reposts
+          if (tagged(p.record, tag) || tagged(p.record, doneTag)) all.push(slim(p));
         });
-        return d && d.cursor && n + 1 < PAGES ? page(d.cursor, n + 1) : all;
+        return d.cursor && n + 1 < PAGES ? page(d.cursor, n + 1) : { posts: all, complete: true };
       });
     }
     return page(null, 0);
+  }
+  // Only the fields the lists read, so the cached copy stays small.
+  function slim(p) {
+    var e = p.embed || {}, ext = e.external || (e.media && e.media.external), r = p.record;
+    return {
+      uri: p.uri, indexedAt: p.indexedAt,
+      record: { text: r.text, facets: r.facets, tags: r.tags, createdAt: r.createdAt },
+      embed: ext ? { external: { uri: ext.uri, title: ext.title } } : null
+    };
+  }
+  // The feed is up to PAGES requests, so keep the result in this browser for CACHE_MIN minutes. If a request fails, the
+  // last saved copy is shown, however old; with none saved, whatever pages did arrive.
+  function readCache() {
+    try {
+      var c = JSON.parse(localStorage.getItem(CACHE_KEY));
+      return c && c.for === CACHE_FOR && Array.isArray(c.posts) ? c : null;
+    } catch (e) { return null; }
+  }
+  function loadPosts() {
+    var c = readCache();
+    if (c && Date.now() - c.at < CACHE_MIN * 6e4 && Date.now() >= c.at) return Promise.resolve(c.posts);
+    return fetchPosts().then(function (got) {
+      if (!got.complete) return c ? c.posts : got.posts;
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), for: CACHE_FOR, posts: got.posts })); } catch (e) {}
+      return got.posts;
+    });
   }
   function reveal(section, id) {
     section.hidden = false;
@@ -248,7 +279,7 @@
     if (box2.children.length) reveal(books, 'books');
   }
 
-  fetchPosts().then(function (posts) {
+  loadPosts().then(function (posts) {
     showPapers(posts);
     showBooks(posts);
   }).catch(function () {});

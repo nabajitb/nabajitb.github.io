@@ -22,7 +22,7 @@ extra_js:
       <li><a href="https://x.com/TensorTwerker" aria-label="X (Twitter)" title="X (Twitter)"><span class="ico" style="--i: url('{{ '/assets/images/icons/twitter.svg' | relative_url }}')"></span></a></li>
       <li><a href="https://medium.com/@nabbo" aria-label="Medium" title="Medium"><span class="ico" style="--i: url('{{ '/assets/images/icons/medium.svg' | relative_url }}')"></span></a></li>
       <li><a href="https://substack.com/@nabbo" aria-label="Substack" title="Substack"><span class="ico" style="--i: url('{{ '/assets/images/icons/substack.svg' | relative_url }}')"></span></a></li>
-      <li><a class="cv-pill" href="{{ '/assets/Nabajit-resume-july.pdf' | relative_url }}">cv</a></li>
+      <li><a class="cv-pill" href="{{ '/assets/Nabajit-Borah-CV.pdf' | relative_url }}">cv</a></li>
     </ul>
   </div>
   <figure class="profile-photo">
