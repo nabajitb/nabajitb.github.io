@@ -1,9 +1,22 @@
-// Photos page: tiles fade in on scroll, "random" jumps to a photo, and a photo opens full screen.
+// Photos page: the colour order starts somewhere new on every visit, tiles fade in on scroll, "random" jumps to a photo, and a photo opens full screen.
 (function () {
   var essay = document.querySelector('.ph-wall');
   if (!essay) return;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var figures = Array.prototype.slice.call(essay.querySelectorAll('.ph-photo'));
+
+  // The photos stay in colour order, but each visit enters the colour wheel at a random point
+  // and walks it in a random direction. The strip follows. Without script it starts at red.
+  var strip = document.querySelector('.ph-spectrum');
+  var slivers = strip ? Array.prototype.slice.call(strip.children) : [];
+  var start = Math.floor(Math.random() * figures.length), backwards = Math.random() < 0.5;
+  function turn(list) {
+    var out = list.slice(start).concat(list.slice(0, start));
+    return backwards ? out.reverse() : out;
+  }
+  figures = turn(figures);
+  figures.forEach(function (f) { essay.appendChild(f); });
+  if (slivers.length === figures.length) turn(slivers).forEach(function (a) { strip.appendChild(a); });
   var items = figures.map(function (a) {
     var img = a.querySelector('img');
     return { el: a, link: a, full: a.href, alt: img.alt, caption: a.getAttribute('data-caption') || '', img: img };
