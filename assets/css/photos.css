@@ -1,253 +1,67 @@
-/* Photos page: a featured photo, then one stream of 4:5 tiles.
-   Each tile starts as noise and resolves into its photograph (see photos.js). */
+/* Photos page: one quiet column of uncropped photographs, each sized to fit the screen. */
 
-.ph-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
-  gap: 2.5rem;
-  align-items: end;
-  margin-bottom: 3.5rem;
+.ph-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 720px;
+  margin: 0 auto 2.5rem;
 }
 
-.ph-feature,
-.ph-tile {
-  position: relative;
-  display: block;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  background: var(--surface);
-  border-radius: 2px;
-}
-
-.ph-feature img,
-.ph-tile img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  border-radius: 0;
-}
-
-/* The noise layer sits on top of the photo and fades away once it has resolved. */
-.ph-noise {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  transition: opacity 0.45s ease;
-  pointer-events: none;
-}
-
-.ph-noise.done {
-  opacity: 0;
-}
-
-.ph-hero-text h1 {
+.ph-head h1 {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(2.4rem, 6vw, 3.4rem);
+  font-size: 1.6rem;
   line-height: 1;
-  margin: 0 0 0.9rem;
+  margin: 0;
 }
 
-.ph-intro {
-  color: var(--ink-soft);
-  max-width: 30em;
-  margin: 0 0 1.5rem;
-}
-
-.ph-meta,
-.ph-tile-cap,
-.ph-lb-cap,
-.ph-lb-count {
+.ph-random,
+.ph-photo figcaption {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-}
-
-.ph-meta {
   color: var(--ink-soft);
-  min-height: 1.4em;
-  margin: 0 0 1.1rem;
 }
 
-.ph-shuffle {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--ink);
+.ph-random {
   background: none;
-  border: 1px solid var(--ink);
-  border-radius: var(--radius);
-  padding: 0.55rem 1rem;
+  border: 0;
+  padding: 0.6rem 0;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
-.ph-shuffle:hover,
-.ph-shuffle:focus-visible {
-  background: var(--ink);
-  color: var(--paper);
+.ph-random:hover,
+.ph-random:focus-visible {
+  color: var(--accent);
 }
 
-.ph-shuffle span {
-  display: inline-block;
-  transition: transform 0.5s var(--ease-out);
+.ph-photo {
+  margin: 0 auto 4.5rem;
+  max-width: 720px;
+  scroll-margin-top: 5rem;
 }
 
-.ph-shuffle:hover span {
-  transform: rotate(180deg);
-}
-
-/* The grid runs wider than the 880px text column. */
-.ph-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  --ph-w: min(1080px, 100vw - 48px);
-  width: var(--ph-w);
-  margin-left: calc(50% - var(--ph-w) / 2);
-}
-
-.ph-tile img {
-  transition: transform 0.6s var(--ease-out);
-}
-
-.ph-tile:hover img,
-.ph-tile:focus-visible img {
-  transform: scale(1.03);
-}
-
-.ph-tile-cap {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 1.6rem 0.7rem 0.6rem;
-  color: #f4efe6;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0));
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.ph-tile:hover .ph-tile-cap,
-.ph-tile:focus-visible .ph-tile-cap {
-  opacity: 1;
-}
-
-/* Full-screen viewer */
-.ph-lb {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: none;
-  grid-template-rows: minmax(0, 1fr) auto;
-  background: rgba(8, 9, 11, 0.96);
-  color: #e8e3d8;
-}
-
-.ph-lb.open {
-  display: grid;
-}
-
-.ph-lb-stage {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 0;
-  padding: 3.2rem 1rem 0.5rem;
-}
-
-.ph-lb-stage img {
-  max-width: 100%;
-  max-height: 100%;
+.ph-photo img {
+  display: block;
   width: auto;
   height: auto;
-  object-fit: contain;
+  max-width: 100%;
+  max-height: 86vh;
+  margin: 0 auto;
   border-radius: 0;
 }
 
-.ph-lb-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.8rem 1.2rem 1.1rem;
+.ph-photo figcaption {
+  text-align: center;
+  margin-top: 0.8rem;
 }
-
-.ph-lb-count {
-  color: #8b94a3;
-  white-space: nowrap;
-}
-
-.ph-lb button {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: #e8e3d8;
-  background: rgba(232, 227, 216, 0.08);
-  border: 0;
-  border-radius: var(--radius);
-  min-width: 44px;
-  min-height: 44px;
-  padding: 0 0.9rem;
-  cursor: pointer;
-}
-
-.ph-lb button:hover,
-.ph-lb button:focus-visible {
-  background: rgba(232, 227, 216, 0.2);
-}
-
-.ph-lb-top {
-  position: absolute;
-  top: 0.6rem;
-  right: 0.8rem;
-  display: flex;
-  gap: 0.5rem;
-  z-index: 2;
-}
-
-.ph-lb-prev,
-.ph-lb-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-}
-
-.ph-lb-prev { left: 0.8rem; }
-.ph-lb-next { right: 0.8rem; }
 
 @media (max-width: 760px) {
-  .ph-hero {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .ph-feature {
-    max-width: 320px;
-  }
-
-  .ph-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px;
-    --ph-w: 100%;
-  }
-
-  .ph-lb-prev,
-  .ph-lb-next {
-    top: auto;
-    bottom: 4.4rem;
-    transform: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ph-tile img,
-  .ph-shuffle span,
-  .ph-noise {
-    transition: none;
+  .ph-photo {
+    margin-bottom: 3rem;
   }
 }
