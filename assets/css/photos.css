@@ -1,24 +1,15 @@
-/* Photos page: one quiet column of uncropped photographs, each sized to fit the screen. */
+/* Photos page: a photo essay ordered around the colour wheel.
+   A spectrum strip indexes the page; rows cycle through solo, pair, side and trio layouts. */
 
-.ph-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  max-width: 720px;
-  margin: 0 auto 2.5rem;
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }
 
-.ph-head h1 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 1.6rem;
-  line-height: 1;
-  margin: 0;
-}
-
-.ph-random,
-.ph-photo figcaption {
+.ph-note,
+.ph-photo figcaption,
+.ph-date,
+.ph-lb-cap,
+.ph-lb-count {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.05em;
@@ -26,42 +17,222 @@
   color: var(--ink-soft);
 }
 
-.ph-random {
-  background: none;
-  border: 0;
-  padding: 0.6rem 0;
-  cursor: pointer;
-  transition: color 0.2s ease;
+.ph-note {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: -1rem 0 1.4rem;
 }
 
-.ph-random:hover,
-.ph-random:focus-visible {
-  color: var(--accent);
+.ph-random {
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+/* Spectrum: one sliver per photo, in page order. */
+.ph-spectrum {
+  display: flex;
+  height: 34px;
+  margin-bottom: clamp(3.5rem, 9vw, 6.5rem);
+}
+
+.ph-spectrum a {
+  flex: 1;
+  min-width: 0;
+  transition: transform 0.25s var(--ease-out);
+  transform-origin: bottom;
+}
+
+.ph-spectrum a:hover,
+.ph-spectrum a:focus-visible {
+  transform: scaleY(1.45);
+}
+
+/* The essay runs wider than the 880px text column. */
+.ph-essay {
+  --ph-w: min(1040px, 100vw - 48px);
+  width: var(--ph-w);
+  margin-left: calc(50% - var(--ph-w) / 2);
+}
+
+.ph-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(14px, 4.5vw, 64px);
+  margin-bottom: clamp(4rem, 11vw, 8.5rem);
 }
 
 .ph-photo {
-  margin: 0 auto 4.5rem;
-  max-width: 720px;
-  scroll-margin-top: 5rem;
+  margin: 0;
+  scroll-margin-top: 6rem;
+}
+
+.ph-photo a {
+  display: block;
 }
 
 .ph-photo img {
   display: block;
-  width: auto;
+  width: 100%;
   height: auto;
-  max-width: 100%;
-  max-height: 86vh;
-  margin: 0 auto;
-  border-radius: 0;
+  border-radius: 2px;
+  box-shadow: 0 22px 44px -22px rgba(0, 0, 0, 0.42);
+  transition: transform 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out);
+}
+
+.ph-photo a:hover img,
+.ph-photo a:focus-visible img {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 50px -22px rgba(0, 0, 0, 0.5);
 }
 
 .ph-photo figcaption {
-  text-align: center;
-  margin-top: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  margin-top: 14px;
 }
 
+.ph-photo figcaption i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--c);
+  margin-right: -4px;
+}
+
+.ph-solo .ph-photo { width: min(100%, 500px); }
+
+.ph-pair .ph-photo { width: min(46%, 400px); }
+.ph-pair .ph-photo:last-child,
+.ph-pair.ph-flip .ph-photo:first-child { margin-top: clamp(2.5rem, 9vw, 7rem); }
+.ph-pair.ph-flip .ph-photo:last-child { margin-top: 0; }
+
+.ph-trio { gap: clamp(8px, 3vw, 40px); }
+.ph-trio .ph-photo { width: min(31%, 300px); }
+.ph-trio .ph-photo:nth-child(2) { margin-top: clamp(1.5rem, 5vw, 4rem); }
+
+.ph-side { align-items: center; }
+.ph-side.ph-flip { flex-direction: row-reverse; }
+.ph-side .ph-photo { width: min(54%, 440px); }
+
+/* Beside a photo: its number in the sequence, then where and when. */
+.ph-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: min(38%, 280px);
+}
+
+.ph-flip .ph-aside {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.ph-no {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(3.2rem, 11vw, 6.5rem);
+  line-height: 0.9;
+  color: var(--line);
+}
+
+.ph-place {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.6vw, 1.55rem);
+  line-height: 1.2;
+}
+
+/* Rows rise in as they are reached. The class is added by script, so nothing hides without it. */
+.ph-anim .ph-row {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+
+.ph-anim .ph-row.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Full-screen viewer */
+.ph-lb {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  grid-template-rows: minmax(0, 1fr) auto;
+  background: rgba(8, 9, 11, 0.97);
+  color: #e8e3d8;
+}
+
+.ph-lb.open { display: grid; }
+
+.ph-lb-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 3.4rem 1rem 0.5rem;
+}
+
+.ph-lb-stage img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0;
+}
+
+.ph-lb-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1.2rem 1.1rem;
+}
+
+.ph-lb-cap { color: #e8e3d8; }
+.ph-lb-count { color: #8b94a3; white-space: nowrap; }
+
+.ph-lb button {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: #e8e3d8;
+  background: rgba(232, 227, 216, 0.08);
+  border: 0;
+  border-radius: var(--radius);
+  min-width: 44px;
+  min-height: 44px;
+  cursor: pointer;
+  position: absolute;
+  z-index: 2;
+}
+
+.ph-lb button:hover,
+.ph-lb button:focus-visible { background: rgba(232, 227, 216, 0.2); }
+
+.ph-lb-close { top: 0.6rem; right: 0.8rem; }
+.ph-lb-prev, .ph-lb-next { top: 50%; transform: translateY(-50%); }
+.ph-lb-prev { left: 0.8rem; }
+.ph-lb-next { right: 0.8rem; }
+
 @media (max-width: 760px) {
-  .ph-photo {
-    margin-bottom: 3rem;
-  }
+  .ph-essay { --ph-w: 100%; }
+  .ph-spectrum { height: 28px; }
+  .ph-pair .ph-photo { width: 48%; }
+  .ph-trio .ph-photo figcaption span:last-child:not(:first-of-type) { display: none; }
+  .ph-side .ph-photo { width: 60%; }
+  .ph-aside { width: 36%; }
+  .ph-lb-prev, .ph-lb-next { top: auto; bottom: 4.2rem; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ph-photo img,
+  .ph-spectrum a { transition: none; }
 }
