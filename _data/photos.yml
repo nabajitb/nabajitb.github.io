@@ -1,0 +1,494 @@
+# Photos shown on /photos/, in display order: around the colour wheel from red to pink, then the greys.
+# file: name in assets/images/photos (and thumbs/). color: dominant colour, set by the build script.
+# place and date are optional; date is YYYY-MM-DD.
+
+- file: "029"
+  alt: "Bougainvillea on a rock"
+  color: "#c0213a"
+  w: 1080
+  h: 1350
+- file: "079"
+  alt: "Railway station under a red sunset"
+  date: 2026-02-21
+  color: "#8f4442"
+  w: 1205
+  h: 1600
+- file: "076"
+  alt: "Red sandstone ghats mirrored in still water"
+  place: "Kusum Sarovar, Mathura"
+  date: 2022-10-16
+  color: "#854538"
+  w: 1280
+  h: 1600
+- file: "069"
+  alt: "Taj Mahal minaret above the river at sunset"
+  place: "Taj Mahal, Agra"
+  date: 2024-08-19
+  color: "#9b5c4f"
+  w: 1280
+  h: 1600
+- file: "025"
+  alt: "Bird perched on a bare tree against an orange sky"
+  date: 2022-10-16
+  color: "#ce7763"
+  w: 1280
+  h: 1600
+- file: "017"
+  alt: "Red sun setting over a lake"
+  color: "#994d3c"
+  w: 1279
+  h: 1600
+- file: "024"
+  alt: "Sunset clouds over a building"
+  color: "#af6844"
+  w: 1280
+  h: 1600
+- file: "034"
+  alt: "Bands of orange, yellow and magenta chrysanthemums"
+  date: 2021-12-18
+  color: "#8a351d"
+  w: 1280
+  h: 1600
+- file: "042"
+  alt: "Bonfire at night"
+  date: 2024-01-22
+  color: "#5b3311"
+  w: 1280
+  h: 1600
+- file: "044"
+  alt: "Patchwork parachute canopy on a field"
+  date: 2024-01-22
+  color: "#7a5331"
+  w: 1280
+  h: 1600
+- file: "058"
+  alt: "Safdarjung's Tomb lit at dusk"
+  place: "Safdarjung's Tomb, Delhi"
+  date: 2024-06-05
+  color: "#8f5d2c"
+  w: 1280
+  h: 1600
+- file: "065"
+  alt: "Stone arch framing a garden path at sunset"
+  color: "#825c42"
+  w: 1280
+  h: 1600
+- file: "021"
+  alt: "Sun setting over the sea beyond dark rocks"
+  date: 2024-01-06
+  color: "#b5805a"
+  w: 1280
+  h: 1600
+- file: "067"
+  alt: "Rumi Darwaza from below"
+  place: "Rumi Darwaza, Lucknow"
+  date: 2025-07-06
+  color: "#895830"
+  w: 1440
+  h: 1592
+- file: "037"
+  alt: "Geese resting on the ground"
+  date: 2019-11-14
+  color: "#5d412a"
+  w: 1080
+  h: 1080
+- file: "049"
+  alt: "Ferris wheel cabins silhouetted at sunset"
+  date: 2024-09-24
+  color: "#af6926"
+  w: 1280
+  h: 1600
+- file: "043"
+  alt: "Cauliflowers, carrots and tomatoes at a market stall"
+  date: 2020-06-29
+  color: "#bc5123"
+  w: 1080
+  h: 1080
+- file: "047"
+  alt: "Wrecked car at night"
+  date: 2020-03-01
+  color: "#57483a"
+  w: 1080
+  h: 1350
+- file: "060"
+  alt: "Receding row of arches in a narrow passage"
+  place: "Lucknow"
+  date: 2025-07-06
+  color: "#674426"
+  w: 1440
+  h: 1592
+- file: "053"
+  alt: "Hawa Mahal lit up at night"
+  place: "Hawa Mahal, Jaipur"
+  date: 2025-03-16
+  color: "#a06f3b"
+  w: 1280
+  h: 1600
+- file: "038"
+  alt: "Carriage horse in harness"
+  date: 2024-08-20
+  color: "#8c6c53"
+  w: 1280
+  h: 1600
+- file: "040"
+  alt: "Desk lamp lighting a small figurine"
+  date: 2025-05-04
+  color: "#614316"
+  w: 1280
+  h: 1600
+- file: "039"
+  alt: "Two cups of coffee seen from above"
+  color: "#a07744"
+  w: 1440
+  h: 1440
+- file: "050"
+  alt: "Lane covered with colourful umbrellas"
+  place: "Delhi"
+  date: 2023-05-18
+  color: "#a4631f"
+  w: 1280
+  h: 1600
+- file: "001"
+  alt: "Tree-lined canal with still water"
+  date: 2019-11-14
+  color: "#5d4935"
+  w: 1080
+  h: 1080
+- file: "046"
+  alt: "Colourful pinwheels at night"
+  date: 2024-10-12
+  color: "#6e4714"
+  w: 1280
+  h: 1600
+- file: "054"
+  alt: "Rear terraces of the Hawa Mahal"
+  place: "Hawa Mahal, Jaipur"
+  date: 2025-03-16
+  color: "#a15c21"
+  w: 1280
+  h: 1600
+- file: "016"
+  alt: "Decorated camel resting on a dune"
+  place: "Jaisalmer"
+  date: 2023-06-16
+  color: "#975e0c"
+  w: 1280
+  h: 1600
+- file: "027"
+  alt: "Prayer flags strung across a hillside"
+  date: 2022-11-18
+  color: "#765f35"
+  w: 864
+  h: 1080
+- file: "056"
+  alt: "Golden Temple framed between gilded pillars"
+  place: "Golden Temple, Amritsar"
+  date: 2025-04-20
+  color: "#603d0b"
+  w: 1280
+  h: 1600
+- file: "061"
+  alt: "Ornate gateway opening onto a long walkway"
+  place: "Amritsar"
+  date: 2025-04-20
+  color: "#6e5633"
+  w: 1280
+  h: 1600
+- file: "011"
+  alt: "Trees in yellow bloom over a carpet of fallen petals"
+  color: "#946c1f"
+  w: 1080
+  h: 1081
+- file: "041"
+  alt: "Candle in a jar beside a potted cactus"
+  date: 2023-04-05
+  color: "#6e4b19"
+  w: 1311
+  h: 1600
+- file: "031"
+  alt: "Yellow daisies in dark foliage"
+  color: "#986604"
+  w: 1280
+  h: 1600
+- file: "030"
+  alt: "Bed of red tulips"
+  color: "#796532"
+  w: 1440
+  h: 1440
+- file: "072"
+  alt: "Carved wooden windows on a sandstone street"
+  place: "Jaisalmer"
+  date: 2023-06-16
+  color: "#81602d"
+  w: 1280
+  h: 1600
+- file: "052"
+  alt: "Carved sandstone haveli under a blue sky"
+  place: "Jaisalmer"
+  color: "#ab6f0e"
+  w: 1280
+  h: 1600
+- file: "002"
+  alt: "Lake reflecting overhanging trees"
+  date: 2019-11-14
+  color: "#5c593a"
+  w: 1080
+  h: 1080
+- file: "071"
+  alt: "Pavilion standing in Gadisar Lake"
+  place: "Gadisar Lake, Jaisalmer"
+  date: 2023-06-16
+  color: "#956b1d"
+  w: 1280
+  h: 1600
+- file: "008"
+  alt: "Bamboo stems beside blue water"
+  date: 2020-03-01
+  color: "#5a602d"
+  w: 1080
+  h: 1350
+- file: "012"
+  alt: "Red flowering branches framing a park"
+  color: "#595131"
+  w: 1280
+  h: 1600
+- file: "023"
+  alt: "Orange clouds across a teal sky"
+  color: "#675f40"
+  w: 1080
+  h: 1350
+- file: "059"
+  alt: "Qutub Minar lit gold at night"
+  place: "Qutub Minar, Delhi"
+  date: 2026-03-07
+  color: "#c4a330"
+  w: 1205
+  h: 1600
+- file: "007"
+  alt: "Sun flaring behind a tree in a rock garden"
+  color: "#656d2a"
+  w: 1080
+  h: 1350
+- file: "015"
+  alt: "Camel shadows stretched across a sand dune"
+  place: "Jaisalmer"
+  color: "#9c9b89"
+  w: 1280
+  h: 1600
+- file: "014"
+  alt: "Stepwell reservoir at sunset"
+  place: "Jaipur"
+  date: 2025-03-16
+  color: "#36382c"
+  w: 1280
+  h: 1600
+- file: "003"
+  alt: "Bare-branched tree against a pink and violet dusk"
+  color: "#2a380a"
+  w: 1080
+  h: 1350
+- file: "078"
+  alt: "Auto-rickshaws parked along a tree-lined road"
+  place: "Delhi"
+  date: 2020-05-11
+  color: "#4e5c34"
+  w: 1080
+  h: 1080
+- file: "009"
+  alt: "Path through a bamboo grove"
+  place: "Assam"
+  date: 2021-02-28
+  color: "#3e4a3a"
+  w: 1080
+  h: 1350
+- file: "035"
+  alt: "Small white flowers"
+  date: 2020-12-01
+  color: "#293925"
+  w: 1080
+  h: 1350
+- file: "068"
+  alt: "White minarets under a storm sky"
+  place: "Lucknow"
+  date: 2025-07-06
+  color: "#384742"
+  w: 1440
+  h: 1592
+- file: "020"
+  alt: "Sunset over the sea with a rock memorial on the horizon"
+  place: "Kanyakumari"
+  date: 2023-12-27
+  color: "#16201e"
+  w: 1280
+  h: 1600
+- file: "055"
+  alt: "Golden Temple across the water"
+  place: "Golden Temple, Amritsar"
+  color: "#517e8f"
+  w: 1280
+  h: 1600
+- file: "062"
+  alt: "Pillared temple corridor with a painted ceiling"
+  place: "Ramanathaswamy Temple, Rameswaram"
+  color: "#3a6974"
+  w: 1440
+  h: 1440
+- file: "063"
+  alt: "Agrasen ki Baoli stepwell"
+  place: "Agrasen ki Baoli, Delhi"
+  date: 2024-12-09
+  color: "#579dba"
+  w: 1280
+  h: 1600
+- file: "048"
+  alt: "Ferris wheel from below"
+  date: 2024-09-24
+  color: "#459cb5"
+  w: 1280
+  h: 1600
+- file: "013"
+  alt: "Looking up a silk cotton tree in red bloom"
+  date: 2024-04-23
+  color: "#337a97"
+  w: 1280
+  h: 1600
+- file: "057"
+  alt: "Gurudwara Bangla Sahib reflected in its pool"
+  place: "Bangla Sahib, Delhi"
+  date: 2024-12-09
+  color: "#128ec1"
+  w: 1280
+  h: 1600
+- file: "019"
+  alt: "Pier reaching into the sea at dusk"
+  date: 2023-12-30
+  color: "#3d7c9f"
+  w: 1440
+  h: 1440
+- file: "028"
+  alt: "Sunflower against a deep blue sky"
+  color: "#0765b7"
+  w: 1280
+  h: 1600
+- file: "070"
+  alt: "Rashtrapati Bhavan behind beds of red tulips"
+  place: "Rashtrapati Bhavan, Delhi"
+  date: 2026-02-21
+  color: "#0487cf"
+  w: 1204
+  h: 1600
+- file: "018"
+  alt: "Yellow boat on a windswept beach"
+  color: "#02689e"
+  w: 1440
+  h: 1440
+- file: "010"
+  alt: "River running between green banks under a blue sky"
+  date: 2022-12-10
+  color: "#3c97da"
+  w: 1280
+  h: 1600
+- file: "064"
+  alt: "Central pillar of Jantar Mantar"
+  place: "Jantar Mantar, Delhi"
+  date: 2024-12-09
+  color: "#0376c1"
+  w: 1280
+  h: 1600
+- file: "073"
+  alt: "Red and white lighthouse on a beach"
+  date: 2023-12-30
+  color: "#0e5a85"
+  w: 1319
+  h: 1319
+- file: "077"
+  alt: "Bronze sculpture under a patterned glass roof"
+  date: 2024-12-18
+  color: "#336b98"
+  w: 1280
+  h: 1600
+- file: "022"
+  alt: "Storm cloud lit orange from below"
+  date: 2020-09-06
+  color: "#114361"
+  w: 1080
+  h: 1350
+- file: "051"
+  alt: "Taj Mahal reflected in its long pool"
+  place: "Taj Mahal, Agra"
+  date: 2024-08-19
+  color: "#6484a0"
+  w: 1280
+  h: 1600
+- file: "045"
+  alt: "Porthole-shaped screen showing a sailing ship"
+  date: 2024-01-28
+  color: "#1571ba"
+  w: 1280
+  h: 1600
+- file: "004"
+  alt: "River bending through hills at dusk"
+  date: 2020-03-01
+  color: "#3e5078"
+  w: 1080
+  h: 1350
+- file: "032"
+  alt: "Purple crape myrtle blossoms"
+  date: 2020-09-20
+  color: "#9a50af"
+  w: 1080
+  h: 1080
+- file: "026"
+  alt: "Crescent moon over a railway bridge at purple dusk"
+  date: 2022-10-02
+  color: "#a06b8b"
+  w: 1280
+  h: 1600
+- file: "033"
+  alt: "Pink ice-plant flowers"
+  date: 2022-03-08
+  color: "#8e0e5c"
+  w: 1280
+  h: 1600
+- file: "036"
+  alt: "Peacock standing on a stone bench"
+  color: "#a5acac"
+  w: 1080
+  h: 1080
+- file: "080"
+  alt: "Birds lined on wires in fog"
+  date: 2024-01-16
+  color: "#868e87"
+  w: 1440
+  h: 1440
+- file: "075"
+  alt: "Domed tomb with blue-tiled pavilions"
+  date: 2024-07-09
+  color: "#7b8285"
+  w: 1280
+  h: 1600
+- file: "066"
+  alt: "Scalloped arch framing a garden and palace"
+  place: "Lucknow"
+  date: 2025-07-06
+  color: "#656d65"
+  w: 1440
+  h: 1592
+- file: "074"
+  alt: "Jama Masjid dome and old Delhi through a stone lattice"
+  place: "Jama Masjid, Delhi"
+  date: 2024-06-24
+  color: "#5c615c"
+  w: 1280
+  h: 1600
+- file: "005"
+  alt: "Acacia trees in thick fog"
+  color: "#4f564e"
+  w: 1440
+  h: 1440
+- file: "006"
+  alt: "Sunbeam cutting across a wooded path"
+  date: 2026-10-31
+  color: "#282a25"
+  w: 1246
+  h: 1600

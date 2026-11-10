@@ -20,7 +20,7 @@ jobs:
           destination: ./_site
       - name: Check the pages that must exist
         run: |
-          for f in index.html work/index.html publications/index.html blogs/index.html \
+          for f in index.html work/index.html publications/index.html blogs/index.html photos/index.html \
                    projects/pik3ca-benchmark/index.html feed/blogs.xml sitemap.xml; do
             test -s "_site/$f" || { echo "missing: $f"; exit 1; }
           done
