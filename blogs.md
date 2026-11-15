@@ -12,7 +12,7 @@ permalink: /blogs/
 {% if sorted_blogs.size > 0 %}
 {% for blog in sorted_blogs %}
 {% assign words = blog.content | strip_html | number_of_words %}
-<div class="pub-item">
+<div class="pub-item post-item">
   <div class="pub-title"><a href="{{ blog.url | relative_url }}">{{ blog.title }}</a></div>
   <div class="pub-journal">{% if blog.date %}{{ blog.date | date: "%B %-d, %Y" }} · {% endif %}{{ words | divided_by: 200 | plus: 1 }} min read</div>
   {% if blog.excerpt %}<div class="blog-excerpt">{{ blog.excerpt | strip_html | truncate: 180 }}</div>{% endif %}

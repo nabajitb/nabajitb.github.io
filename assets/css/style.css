@@ -572,15 +572,26 @@ main {
   transition: background-color 0.3s ease;
 }
 
+/* Numbered like a reference list: [1], [2], ... running across the sections of a page. */
 .pub-item::before {
-  content: counter(item, lower-greek);
+  content: "[" counter(item) "]";
   position: absolute;
   left: 14px;
-  top: 28px;
+  top: 26px;
   font-family: var(--font-mono);
-  font-size: 1.05rem;
+  font-size: 0.82rem;
+  line-height: calc(1.25rem * 1.35);   /* the title's first line, so the two sit level */
   color: var(--seal);
   transition: transform 0.3s var(--ease-out), color 0.45s ease;
+}
+
+/* Writing: posts are not citations, so no number and no gutter for one. */
+.pub-item.post-item {
+  padding-left: 14px;
+}
+
+.pub-item.post-item::before {
+  content: none;
 }
 
 .pub-item:hover {
@@ -1483,7 +1494,7 @@ pre code {
   }
 
   .pub-item {
-    padding-left: 44px;
+    padding-left: 48px;
   }
 }
 
