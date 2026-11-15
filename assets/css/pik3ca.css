@@ -198,11 +198,14 @@
   background: #ffffff;
 }
 
+/* --pk-tap-gap is the space between rows of mutation buttons; each button's tap area reaches half of it,
+   so neighbouring tap areas meet without overlapping. */
 .pk-mutkey {
+  --pk-tap-gap: 8px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px 22px;
+  gap: var(--pk-tap-gap) 22px;
   margin: 0.8rem 0 0.4rem;
 }
 
@@ -210,7 +213,7 @@
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 4px 6px;
+  gap: var(--pk-tap-gap) 6px;
 }
 
 .pk-mutgroup .pk-key {
@@ -223,10 +226,12 @@
 }
 
 .pk-mutbtn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 2px 7px;
+  min-height: 26px;
+  padding: 2px 8px;
   border: 1px solid transparent;
   border-radius: 999px;
   font-family: var(--font-mono);
@@ -244,10 +249,27 @@
   background: var(--pk-mut);
 }
 
+/* The area that takes a tap: the pill plus half the gap to each neighbour (34px tall; 44px on touch screens). */
+.pk-mutbtn::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--pk-tap-gap) / -2 - 1px) -4px;
+}
+
 .pk-mutbtn:hover,
 .pk-mutbtn.is-on {
   color: var(--ink);
   border-color: var(--pk-mut);
+}
+
+@media (pointer: coarse) {
+  .pk-mutkey {
+    --pk-tap-gap: 12px;
+  }
+
+  .pk-mutbtn {
+    min-height: 32px;
+  }
 }
 
 .pk-split {
