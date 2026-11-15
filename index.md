@@ -33,12 +33,12 @@ extra_js:
 
 ## About
 
+I like deep learning models that work on the shapes of molecules: predicting how a protein folds, how a drug sits in its pocket, and designing new binders from scratch. I am most curious about where these models fail. My [Master's thesis]({{ '/projects/pik3ca-benchmark/' | relative_url }}) tested whether they notice what a cancer mutation changes about how a drug binds.
+
 <div class="currently">
   <span class="currently-label">Currently</span>
   <span>Founding Computational Biologist at <strong><a href="https://www.litefold.ai/" rel="noopener">LiteFold</a></strong></span>
 </div>
-
-I like deep learning models that work on the shapes of molecules: predicting how a protein folds, how a drug sits in its pocket, and designing new binders from scratch. I am most curious about where these models fail. My [Master's thesis]({{ '/projects/pik3ca-benchmark/' | relative_url }}) tested whether they notice what a cancer mutation changes about how a drug binds.
 
 Away from the models, I sometimes [write]({{ '/blogs/' | relative_url }}) about things that interest me, take [photographs]({{ '/photos/' | relative_url }}), play music and watch movies.
 
