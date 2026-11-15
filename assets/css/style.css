@@ -539,7 +539,7 @@ main {
 .profile-photo img {
   width: 100%;
   height: auto;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 1;
   object-fit: cover;
   display: block;
   border-radius: 4px;
