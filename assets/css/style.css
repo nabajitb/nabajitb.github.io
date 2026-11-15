@@ -908,7 +908,7 @@ footer p {
   gap: 1rem;
   align-items: baseline;
   padding: 14px 0;
-  margin-bottom: 2rem;
+  margin: 2rem 0;
   border-top: 1px dashed var(--line);
   border-bottom: 1px dashed var(--line);
   font-size: 1.02rem;
