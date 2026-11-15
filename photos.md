@@ -14,8 +14,9 @@ extra_js:
 
 <p class="ph-note">{{ site.data.photos.size }} frames, arranged by colour. <a class="ph-random" href="#" hidden>random →</a></p>
 
-<div class="ph-spectrum" role="navigation" aria-label="Jump to a photo by its colour">
-{% for p in site.data.photos %}<a href="#f-{{ p.file }}" style="background:{{ p.color }}" aria-label="{{ p.alt | escape }}"></a>{% endfor %}
+{% comment %}The strip repeats the grid's links, so it is skipped by the Tab key and screen readers.{% endcomment %}
+<div class="ph-spectrum" aria-hidden="true">
+{% for p in site.data.photos %}<a href="#f-{{ p.file }}" style="background:{{ p.color }}" tabindex="-1"></a>{% endfor %}
 </div>
 
 <div class="ph-wall">

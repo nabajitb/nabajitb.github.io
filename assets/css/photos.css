@@ -24,8 +24,16 @@
 }
 
 .ph-random {
+  position: relative;
   text-transform: none;
   letter-spacing: 0.04em;
+}
+
+/* A larger area to tap than the text itself. */
+.ph-random::after {
+  content: "";
+  position: absolute;
+  inset: -12px -8px;
 }
 
 /* Spectrum: one sliver per photo, in page order. */
