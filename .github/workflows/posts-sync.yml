@@ -1,4 +1,4 @@
-name: Sync Medium posts
+name: Sync Medium and Substack posts
 
 on:
   schedule:
@@ -19,14 +19,14 @@ jobs:
       - name: Install Pillow (images are saved as WebP)
         run: pip install "pillow>=10,<13"
       - name: Import new posts
-        run: python3 scripts/import_medium.py
+        run: python3 scripts/import_posts.py
       - name: Commit and push
         run: |
           if [ -n "$(git status --porcelain)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add _blogs assets/images/blogs
-            git commit -m "Sync new Medium posts"
+            git commit -m "Sync new posts"
             git push
           else
             echo "No new posts."
