@@ -44,18 +44,15 @@
           <svg class="theme-icon-light" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           <svg class="theme-icon-dark" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         </button>
-        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
-          <span class="nav-toggle-bar" aria-hidden="true"></span>
-        </button>
       </div>
-      <nav id="site-nav">
+      <nav id="site-nav" aria-label="Main">
         <ul>
           {% for item in site.navigation %}
           {% if item.url == "/blogs/" and site.blogs.size == 0 %}{% continue %}{% endif %}
           {% assign active = false %}
           {% if page.url == item.url %}{% assign active = true %}{% endif %}
           {% if item.url == "/blogs/" and page.collection == "blogs" %}{% assign active = true %}{% endif %}
-          <li><a href="{{ item.url | relative_url }}"{% if active %} class="active" aria-current="page"{% endif %}>{{ item.title | downcase }}</a></li>
+          <li{% if item.url == "/" %} class="nav-home"{% endif %}><a href="{{ item.url | relative_url }}"{% if active %} class="active" aria-current="page"{% endif %}>{{ item.title | downcase }}</a></li>
           {% endfor %}
         </ul>
       </nav>
@@ -153,12 +150,6 @@
           io.observe(el);
         });
       }
-
-      var toggle = document.querySelector('.nav-toggle');
-      toggle.addEventListener('click', function () {
-        var open = document.body.classList.toggle('nav-open');
-        toggle.setAttribute('aria-expanded', open);
-      });
     })();
   </script>
   <script defer src="{{ '/assets/js/protein.js' | relative_url }}"></script>

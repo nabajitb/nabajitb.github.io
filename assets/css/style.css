@@ -301,36 +301,6 @@ a:focus-visible {
 :root[data-theme="dark"] .theme-icon-light { display: none !important; }
 :root[data-theme="dark"] .theme-icon-dark { display: block !important; }
 
-.nav-toggle {
-  display: none;
-}
-
-.nav-toggle-bar,
-.nav-toggle-bar::before,
-.nav-toggle-bar::after {
-  display: block;
-  width: 16px;
-  height: 1.5px;
-  border-radius: 2px;
-  background: currentColor;
-  position: relative;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.nav-toggle-bar::before,
-.nav-toggle-bar::after {
-  content: "";
-  position: absolute;
-  left: 0;
-}
-
-.nav-toggle-bar::before { top: -5px; }
-.nav-toggle-bar::after { top: 5px; }
-
-.nav-open .nav-toggle-bar { background: transparent; }
-.nav-open .nav-toggle-bar::before { transform: translateY(5px) rotate(45deg); }
-.nav-open .nav-toggle-bar::after { transform: translateY(-5px) rotate(-45deg); }
-
 /* Main */
 main {
   position: relative;
@@ -1420,9 +1390,12 @@ pre code {
     padding: 0 16px;
   }
 
+  /* Phones: the links sit in their own row under the title, always visible. */
   .header-inner {
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 0;
+    min-height: 0;
+    padding-top: 6px;
   }
 
   .header-actions {
@@ -1430,31 +1403,37 @@ pre code {
     margin-left: auto;
   }
 
-  .nav-toggle {
-    display: inline-flex;
-  }
-
   nav {
     order: 3;
     flex-basis: 100%;
+    min-width: 0;
     margin: 0;
+  }
+
+  /* The site title already links home. */
+  .nav-home {
     display: none;
   }
 
-  .nav-open nav {
-    display: block;
+  nav ul {
+    justify-content: space-between;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
 
-  nav ul {
-    flex-direction: column;
-    gap: 0;
-    padding-bottom: 0.75rem;
+  nav ul::-webkit-scrollbar {
+    display: none;
   }
 
   nav a {
     display: block;
-    padding: 0.55rem 0;
-    font-size: 0.85rem;
+    padding: 6px 0 12px;
+    white-space: nowrap;
+  }
+
+  nav a::before {
+    margin-right: 3px;
   }
 
   .profile-section {
@@ -1505,6 +1484,14 @@ pre code {
 
   .pub-item {
     padding-left: 44px;
+  }
+}
+
+/* Very narrow phones: tighten the links so all four still fit. */
+@media (max-width: 350px) {
+  nav a {
+    font-size: 0.74rem;
+    letter-spacing: 0.03em;
   }
 }
 
