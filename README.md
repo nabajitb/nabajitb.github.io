@@ -15,7 +15,7 @@ bundle install && bundle exec jekyll serve
 | `index.md`, `work.md`, `publications.md`, `blogs.md` | The top-level pages |
 | `projects/` | Project pages (the PIK3CA thesis page, with its own `assets/css/pik3ca.css` and `assets/js/pik3ca.js`) |
 | `_data/` | Projects, experience, publications and talks, as YAML |
-| `_blogs/` | Posts, imported from [Medium](https://medium.com/@nabbo) weekly by `scripts/import_medium.py` |
+| `_blogs/` | Posts, imported from [Medium](https://medium.com/@nabbo) and [Substack](https://nabbo.substack.com) weekly by `scripts/import_posts.py` |
 | `assets/data/pik3ca/` | Structures and results the thesis page's charts and 3D viewers load |
 
 ## Reading and Books
@@ -33,14 +33,16 @@ rebuild. The result is kept in the browser for 10 minutes (`CACHE_MIN`), so a re
 
 ## Writing
 
-`scripts/import_medium.py` needs Pillow (`pip install pillow`). It saves each post's images as WebP with their
+`scripts/import_posts.py` reads the Medium and Substack feeds (Substack's lists articles only, not Notes) and needs Pillow (`pip install pillow`). It saves each post's images as WebP with their
 width and height, plus `og.jpg` (the first image as JPEG) for link previews. An image with a caption takes the caption
 as its alt text; one without gets `alt=""`, so write that description by hand in the post. Existing posts are
 skipped, so hand edits stay.
 
-Each post's canonical link points at this site (jekyll-seo-tag's default). Medium points at itself unless told
-otherwise, so for each story set Story settings → Advanced settings → "Customize canonical link" to the post's
-address here; search engines then treat this site's copy as the original.
+A canonical link tells search engines which copy of a post is the original. For a Medium post it points at this
+site (jekyll-seo-tag's default). Medium points at itself unless told otherwise, so for each story set Story
+settings → Advanced settings → "Customize canonical link" to the post's address here; search engines then treat this
+site's copy as the original. Substack has no such setting, so a Substack article is imported with `canonical_url`
+set to its Substack address: the copy here names Substack as the original.
 
 ## Builds
 

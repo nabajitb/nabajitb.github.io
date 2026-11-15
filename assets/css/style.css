@@ -1274,6 +1274,21 @@ footer p {
   white-space: pre;
 }
 
+/* A Substack preformatted block: text, not code, so it wraps and reads in the body face. */
+.post-body pre.prose {
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.post-body pre.prose mark {
+  padding: 0.1em 0.2em;
+  border-radius: 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
 .post-footer {
   margin-top: 3rem;
   padding-top: 1.5rem;
