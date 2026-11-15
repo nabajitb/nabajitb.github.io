@@ -246,7 +246,9 @@
     if (AGGREGATE || e.button !== 0 || e.target.closest('a, button, input, textarea, select, label, img, summary')) return;
     var sel = window.getSelection && window.getSelection();
     if (sel && String(sel).length) return;
-    focus = { x: e.clientX, y: e.clientY, r: 150, until: performance.now() + FOCUS_MS };
+    // The orbit shrinks on small screens so the school still reads as a cluster: 150px on a desktop, about 86px on a phone.
+    var r = Math.max(70, Math.min(150, Math.min(W, H) * 0.22));
+    focus = { x: e.clientX, y: e.clientY, r: r, until: performance.now() + FOCUS_MS };
   });
   window.addEventListener('resize', function () { resize(); if (reduceMotion) draw(); });
   document.addEventListener('visibilitychange', function () {

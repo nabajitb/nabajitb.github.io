@@ -24,3 +24,10 @@ jobs:
                    projects/pik3ca-benchmark/index.html feed/blogs.xml sitemap.xml; do
             test -s "_site/$f" || { echo "missing: $f"; exit 1; }
           done
+      - name: Check every photo has both thumbnail sizes
+        run: |
+          for f in _site/assets/images/photos/*.webp; do
+            for d in thumbs thumbs-400; do
+              test -s "_site/assets/images/photos/$d/$(basename "$f")" || { echo "missing $d thumbnail for $(basename "$f"): run scripts/make_photo_thumbs.py"; exit 1; }
+            done
+          done
