@@ -98,9 +98,9 @@ def clean_body(body, slug):
         src = html.unescape(m.group(1))
         q = urllib.parse.parse_qs(urllib.parse.urlparse(src).query)
         real = q.get("src", [src])[0]
-        return ('<div class="embed"><iframe src="%s" loading="lazy" allowfullscreen '
+        return ('<div class="embed"><iframe src="%s" title="Embedded media" loading="lazy" allowfullscreen '
                 'frameborder="0"></iframe></div>' % html.escape(real, quote=True))
-    body = re.sub(r'<iframe[^>]*src="([^"]+)"[^>]*>\s*</iframe>', fix_iframe, body)
+    body = re.sub(r'<iframe[^>]*src="([^"]+)"[^>]*>.*?</iframe>', fix_iframe, body, flags=re.S)
 
     # Medium uses h3/h4 for section headings; shift up so the site TOC sees h2/h3.
     body = re.sub(r"<(/?)h4>", r"<\1h3_>", body)

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Work
+description: "Projects, experience, education and skills of Nabajit Borah, a computational biologist working on deep learning for protein structure and design."
 show_title: false
 redirect_from:
   - /about/
@@ -54,7 +55,7 @@ redirect_from:
 <div class="timeline-item">
   <div class="timeline-header">
     <span class="timeline-title">B.Tech + M.Tech Biotechnology (Integrated)</span>
-    <span class="timeline-date">2021 – Present</span>
+    <span class="timeline-date">2021 – 2026</span>
   </div>
   <div class="timeline-place">Amity University, Noida, India · CGPA 9.2/10</div>
   <ul class="tag-list">
@@ -68,7 +69,7 @@ redirect_from:
 <div class="skill-grid">
   <div>
     <h3>Programming &amp; ML</h3>
-    <ul class="tag-list"><li>Python</li><li>Scikit-learn</li><li>Keras</li><li>Pandas</li><li>NumPy</li><li>Linux</li></ul>
+    <ul class="tag-list"><li>Python</li><li>PyTorch</li><li>Scikit-learn</li><li>Keras</li><li>Pandas</li><li>NumPy</li><li>Linux</li></ul>
   </div>
   <div>
     <h3>Structural &amp; computational</h3>

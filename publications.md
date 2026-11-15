@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Publications
+description: "Book chapters and conference presentations by Nabajit Borah, on AI for drug design, structural biology and bioinformatics."
 show_title: false
 ---
 

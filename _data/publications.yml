@@ -1,4 +1,4 @@
-# Book chapters. `selected: true` also shows the entry on the homepage.
+# Book chapters, shown on /publications/. `selected` is not read by any page now.
 - title: "Artificial Intelligence-Powered Molecular Docking: A Promising Tool for Rational Drug Design"
   authors: "<strong>N.K. Borah</strong>, Y. Tripathi, A. Tanwar, D. Tiwari, A. Sinha, S. Sharma, N. Jabalia, R. Jakhmola Mani, S. Santoshi, H. Bansal"
   venue: "In: Artificial Intelligence and Machine Learning in Drug Design and Development, Wiley, 2024"

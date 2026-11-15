@@ -1,0 +1,26 @@
+---
+layout: null
+sitemap: false
+---
+{% comment %}
+jekyll-feed always writes a feed of _posts at /feed.xml, which is empty here because the writing lives in the
+blogs collection (/feed/blogs.xml). This file takes its place, so the address people guess lists the posts too.
+{% endcomment %}<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+  <title>{{ site.title | xml_escape }} · Writing</title>
+  <subtitle>{{ site.description | xml_escape }}</subtitle>
+  <link href="{{ '/feed.xml' | absolute_url }}" rel="self" type="application/atom+xml"/>
+  <link href="{{ '/blogs/' | absolute_url }}" rel="alternate" type="text/html"/>
+  <id>{{ '/feed.xml' | absolute_url }}</id>
+  <author><name>{{ site.author.name | xml_escape }}</name></author>
+  {% assign posts = site.blogs | sort: "date" | reverse %}<updated>{{ posts.first.date | default: site.time | date_to_xmlschema }}</updated>
+  {% for post in posts limit: 20 %}<entry>
+    <title>{{ post.title | xml_escape }}</title>
+    <link href="{{ post.url | absolute_url }}" rel="alternate" type="text/html"/>
+    <id>{{ post.url | absolute_url }}</id>
+    <published>{{ post.date | date_to_xmlschema }}</published>
+    <updated>{{ post.date | date_to_xmlschema }}</updated>
+    <summary>{{ post.excerpt | strip_html | normalize_whitespace | xml_escape }}</summary>
+  </entry>
+  {% endfor %}
+</feed>

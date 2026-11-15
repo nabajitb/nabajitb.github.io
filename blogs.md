@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Writing
+description: "Essays by Nabajit Borah on AI for biology: protein design models, structure prediction and new papers, read from a biologist's side."
 show_title: false
 permalink: /blogs/
 ---
