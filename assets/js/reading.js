@@ -13,7 +13,7 @@
   var FEED = 'https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?filter=posts_no_replies&limit=100&actor=' +
     encodeURIComponent(handle);
   var PAGES = 10;  // up to 1000 posts back, so finished books stay in the library
-  var CACHE_KEY = 'reading-posts', CACHE_MIN = 10, CACHE_FOR = [handle, tag, doneTag].join('|');
+  var CACHE_KEY = 'reading-posts', CACHE_MIN = 2, CACHE_FOR = [handle, tag, doneTag].join('|');
 
   function feature(f) { return f.features && f.features[0] || {}; }
   function isTag(f) { return feature(f).$type === 'app.bsky.richtext.facet#tag'; }

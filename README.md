@@ -22,8 +22,8 @@ bundle install && bundle exec jekyll serve
 
 Both home-page lists come from Bluesky posts by `bluesky.handle` (`_config.yml`), read in the browser by
 `assets/js/reading.js` from Bluesky's public API, so new, edited or deleted posts show with no
-rebuild. The result is kept in the browser for 10 minutes (`CACHE_MIN`), so a returning visitor sees a new post up to
-10 minutes late. Each list stays hidden until it has something to show.
+rebuild. The result is kept in the browser for 2 minutes (`CACHE_MIN`), so a returning visitor sees a new post up to
+2 minutes late. Each list stays hidden until it has something to show.
 
 - **Reading**: the five newest posts (more behind "Show more") tagged `#reading` (`bluesky.tag`) that link a paper, article or anything else.
 - **Books**: posts linking a Goodreads (or StoryGraph / Open Library) book page. Start a book with
