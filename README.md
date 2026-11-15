@@ -31,6 +31,13 @@ rebuild. The result is kept in the browser for 2 minutes (`CACHE_MIN`), so a ret
   (`bluesky.done_tag`). The two posts pair up by the book's Goodreads id, and the list shows "since Jun '26" while
   reading and "Jun–Sep '26" once finished. Without "by Author", the title comes from the link card.
 
+## Photos
+
+`/photos/` lists the frames in `_data/photos.yml`; the files are `assets/images/photos/NNN.webp`. Each tile offers two
+thumbnail widths, `thumbs/` (640px) and `thumbs-400/` (400px, what a phone's three-column wall takes). After adding a
+photo, run `python3 scripts/make_photo_thumbs.py` to write the missing thumbnails; the build check fails if one is
+missing.
+
 ## Writing
 
 `scripts/import_posts.py` reads the Medium and Substack feeds (Substack's lists articles only, not Notes) and needs Pillow (`pip install pillow`). It saves each post's images as WebP with their
