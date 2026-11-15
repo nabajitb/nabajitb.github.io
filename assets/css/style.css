@@ -1187,6 +1187,15 @@ footer p {
   margin-bottom: 0.4em;
 }
 
+/* Long unbroken strings (comma lists, bare URLs) wrap instead of widening the page. */
+.post-body {
+  overflow-wrap: break-word;
+}
+
+.post-body iframe {
+  max-width: 100%;
+}
+
 .post-body h2 {
   margin: 2.2em 0 0.6em;
   font-size: 1.6rem;
@@ -1432,6 +1441,19 @@ pre code {
 
   .news-date::after {
     display: none;
+  }
+
+  /* Stacked rows have the full width, so a long title wraps instead of being cut off. */
+  .reading-body {
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 0;
+    max-width: 100%;
+  }
+
+  .reading-body a {
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .currently {
