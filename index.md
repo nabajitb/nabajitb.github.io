@@ -40,7 +40,7 @@ extra_js:
 
 I like deep learning models that work on the shapes of molecules: predicting how a protein folds, how a drug sits in its pocket, and designing new binders from scratch. I am most curious about where these models fail. My [Master's thesis]({{ '/projects/pik3ca-benchmark/' | relative_url }}) tested whether they notice what a cancer mutation changes about how a drug binds.
 
-Away from the models, I [write]({{ '/blogs/' | relative_url }}) about new papers, take [photographs]({{ '/photos/' | relative_url }}), play music and watch movies.
+Away from the models, I sometimes [write]({{ '/blogs/' | relative_url }}) about things that interest me, take [photographs]({{ '/photos/' | relative_url }}), play music and watch movies.
 
 {% if site.bluesky.handle %}
 <h2 id="reading" hidden>Reading</h2>
