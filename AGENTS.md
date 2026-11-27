@@ -52,7 +52,8 @@ Read by `_layouts/default.html` / `page.html`:
 
 - `layout: page` for normal pages.
 - `show_title: false`: the page writes its own heading (usually `## Section`); a hidden `h1` is added for a11y.
-- `protein: true` (home: full school, `body.home`), `protein: aggregate` (404), otherwise subpages get a sparse school.
+- `protein: true` (home: full school), `protein: aggregate` (404: one clump); any other page gets a sparse school.
+  Any `protein:` value also puts `class="home"` on `<body>` (so the 404 shares home styles).
 - `background: none`: no protein canvas at all (photos, thesis page).
 - `extra_css: /path.css` and `extra_js: [list]`: page-specific assets, cache-busted with `?v=<build time>`.
 - `description`, `image`: used by jekyll-seo-tag for link previews. Default card is `assets/og.png`.
@@ -109,8 +110,8 @@ Rules:
 - Respect `prefers-reduced-motion` in every animation you add.
 - Section headings are `## Name` inside `.page`. CSS numbers them automatically (`01`, `02`, ... via a counter), so
   adding or removing a `##` renumbers the rest of the page. Use `###` for sub-headings that should not be numbered.
-- List rows (`.pub-item`: publications, talks, writing) are numbered `[1]`, `[2]` by a CSS counter, like references.
-  Links inside them get `[ ]` brackets in mono.
+- List rows (`.pub-item`: publications, talks, writing) are numbered `[1]`, `[2]` in seal red by a CSS counter, like
+  references. Links in a row's `.pub-links` line get `[ ]` brackets in mono.
 - Chips use `<ul class="tag-list"><li>..</li></ul>`; side-by-side groups use `.skill-grid`; dated rows use
   `.timeline-item` with `.timeline-header` / `.timeline-title` / `.timeline-date` / `.timeline-place`.
 
@@ -123,7 +124,8 @@ Plain, precise, first person, lowercase in UI chrome (nav, footer, `cv` pill). C
 
 How it works:
 - `_data/photos.yml` is the single source. **List order is display order**, arranged around the colour wheel:
-  reds → oranges/browns → yellows → greens → teals/blues → purples/pinks, then near-greys/blacks at the end.
+  reds → oranges/browns → yellows → greens → teals/blues → purples/pinks (hue rising from ~0° to ~350°), then a
+  block of near-neutral shots (saturation under ~0.1) running from light grey to near black.
 - `photos.js` rotates that list to a random start point and random direction on each visit, so order still matters:
   neighbours must be close in colour.
 - Each entry renders a tile in `.ph-wall` (4 columns desktop, 3 on phones, 4:5 crop) and a sliver in the
@@ -165,8 +167,9 @@ Steps to add photos:
    print(f'color: "#{r:02x}{g:02x}{b:02x}"  w: {w}  h: {h}  hue: {hue*360:.0f}  sat: {sat:.2f}')
    ```
 
-   Then place it next to entries with similar hue (and similar lightness within that run). Low-saturation shots
-   (sat below ~0.1, i.e. greys, blacks, overcast) go in the grey block at the end.
+   Then place it between the entries whose hue brackets its own. Low-saturation shots (sat below ~0.1: greys,
+   blacks, overcast) go in the grey block at the end, placed by lightness (lighter first). The sort is by eye, not
+   exact, so a few entries sit slightly out of strict hue order; leave existing entries where they are.
 5. Write an honest `alt` for every photo. Ask the owner for `place`/`date` if not known; omit rather than guess.
 6. Check locally or at least confirm the build passes. Do not touch `photos.js`/`photos.css` just to add photos.
 
