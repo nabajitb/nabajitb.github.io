@@ -1,5 +1,5 @@
 # Photos shown on /photos/, in display order: around the colour wheel from red to pink, then the greys.
-# file: name in assets/images/photos (and thumbs/). color: dominant colour, set by the build script.
+# file: name in assets/images/photos (and thumbs/, thumbs-400/). color: dominant colour (see AGENTS.md for how to compute it).
 # place and date are optional; date is YYYY-MM-DD.
 
 - file: "029"

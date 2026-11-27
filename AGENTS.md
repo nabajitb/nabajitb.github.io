@@ -22,6 +22,35 @@ this file is the fuller map.
   `image: /assets/og.png`, the `blogs` collection gets `layout: blog_post` and lives at `/blogs/:name/`, and its feed
   is `/feed/blogs.xml`.
 
+## Hosting and migrating off GitHub Pages
+
+The site is a plain static Jekyll build: everything ends up as files in `_site/`, with no server code, database or
+API keys. Any static host (Netlify, Cloudflare Pages, Vercel, S3/CloudFront, a plain web server) can serve it. The
+dynamic bits run in the visitor's browser (Bluesky lists, protein canvas, photo viewer, thesis charts) and only need
+public CDNs (Google Fonts, jsDelivr for py2Dmol, cdnjs for KaTeX, `public.api.bsky.app`), so they move unchanged.
+
+What is tied to GitHub today, and what to do with each when moving:
+
+| Tied to GitHub | Where | On another host |
+| --- | --- | --- |
+| Pages builds `master` itself with the `github-pages` gem (Jekyll 3) | (implicit) | The new host must run the build. Pin the same versions to avoid surprises: replace the `Gemfile` contents with `gem "github-pages", group: :jekyll_plugins` plus `gem "webrick"` (Ruby 3+), or keep Jekyll 4 and test every page. Build command `bundle exec jekyll build`, output dir `_site`. Set `JEKYLL_ENV=production` (jekyll-seo-tag and others only add some tags in production; Pages sets it). |
+| Site address | `_config.yml` `url: "https://nabajitb.github.io"` | Change to the new domain. It feeds canonical links, the sitemap, feeds and link-preview URLs. Keep `baseurl: ""` unless the site moves into a subfolder (imported post bodies hard-code `/assets/...`, so a subfolder would break their images). |
+| Domain text baked into files | `scripts/make_og.py` (card text), `assets/images/projects/pik3ca/og.png`, likely `assets/og.png`, `scripts/import_posts.py` (User-Agent), `README.md` | Update the text, regenerate the thesis card with `make_og.py`. `assets/og.png` has no script; redo it by hand if it shows the address. |
+| Custom domain | none yet (no `CNAME` file) | On GitHub, a custom domain would need a `CNAME` file; elsewhere, set it in the host's dashboard. Keep the old `github.io` site up with redirects for a while if links point at it (GitHub Pages cannot do server redirects; leave a minimal Jekyll site with `redirect_from`/`redirect_to` pages, or meta refreshes, pointing at the new domain). |
+| Build check | `.github/workflows/build.yml` uses `actions/jekyll-build-pages` | Optional. Most hosts build each PR as a preview. To keep the checks, move the two shell checks (key pages exist, every photo has both thumbnails) into the host's build command after `jekyll build`, or keep this workflow if the code stays on GitHub. |
+| Weekly post import | `.github/workflows/posts-sync.yml` commits new posts into the repo | It only needs Python 3 + Pillow and push access. Keep it in GitHub Actions if the code stays on GitHub (the new host rebuilds on push), or run `python3 scripts/import_posts.py` from any scheduler (GitLab CI schedule, cron) and commit the result. |
+| Redirects (`/cv/`, `/about/` → `/work/` etc.) | jekyll-redirect-from | Portable: they are generated as HTML pages with a meta refresh. A host's `_redirects`/config could replace them with real 301s, but nothing has to change. |
+| 404 page | `404.html` with `permalink: /404.html` | Netlify, Cloudflare Pages and Vercel pick up `/404.html` automatically; nginx/S3 need it set as the error document. |
+| Clean URLs (`/work/`) | `permalink: /:title/` writes `work/index.html` | Works anywhere that serves `index.html` for a folder. |
+
+Not tied to GitHub: content, `_data`, CSS/JS, images, `scripts/`, the Bluesky lists, Medium/Substack feeds.
+Plugins used are all standard gems, so they work on any host that runs a normal Jekyll build.
+
+Migration checklist: set the host's build to `bundle exec jekyll build` → `_site` with `JEKYLL_ENV=production`;
+update `url`; regenerate link-preview cards; point the domain; decide where the build check and weekly import run;
+verify `/`, `/work/`, `/publications/`, `/blogs/`, `/photos/`, `/projects/pik3ca-benchmark/`, `/cv/`, a missing
+URL (404), `/feed.xml`, `/feed/blogs.xml` and `/sitemap.xml` on the new host; then update this file and `README.md`.
+
 ## Repository map
 
 | Path | Purpose |
@@ -147,22 +176,23 @@ Plain, precise, first person, lowercase in UI chrome (nav, footer, `cv` pill). C
 
 How it works:
 - `_data/photos.yml` is the single source. **List order is display order**, arranged around the colour wheel:
-  reds → oranges/browns → yellows → greens → teals/blues → purples/pinks (hue rising from ~0° to ~350°), then a
-  block of near-neutral shots (saturation under ~0.1) running from light grey to near black.
+  reds → oranges/browns → yellows → greens → teals/blues → purples/pinks → back to red (the list starts at a
+  crimson, hue ~351°, and the last coloured entries are pinks/reds at ~337–347°, so reds wrap both ends). After them
+  comes a block of near-neutral shots (greys, blacks, overcast) running from light grey to near black.
 - `photos.js` rotates that list to a random start point and random direction on each visit, so order still matters:
   neighbours must be close in colour.
 - Each entry renders a tile in `.ph-wall` (4 columns desktop, 3 on phones, 4:5 crop) and a sliver in the
   `.ph-spectrum` strip. Clicking opens a full-screen viewer (arrows, swipe, Esc). Caption = `place · Mon YYYY`.
 - The intro line shows `{{ site.data.photos.size }} frames` automatically.
 
-Entry format:
+Entry format (keep this field order; `file`, `alt`, `color`, `w`, `h` are required, `place` and `date` optional):
 
 ```yaml
-- file: "157"            # string, zero-padded 3 digits; matches assets/images/photos/157.webp
-  alt: "Short literal description of the photo"   # required, plain, no "photo of"
+- file: "157"            # quoted string, zero-padded 3 digits; matches assets/images/photos/157.webp
+  alt: "Short literal description of the photo"   # plain, no "photo of"
   place: "Hauz Khas, New Delhi"                   # optional
-  date: 2026-11-20                                # optional, YYYY-MM-DD
-  color: "#5d4d37"       # dominant colour, lowercase hex; tile background while loading + spectrum sliver
+  date: 2026-11-20                                # optional, YYYY-MM-DD, unquoted
+  color: "#5d4d37"       # lowercase hex; tile background while loading + spectrum sliver
   w: 1280                # pixel width of the full .webp
   h: 1600                # pixel height of the full .webp
 ```
@@ -170,31 +200,52 @@ Entry format:
 Steps to add photos:
 1. Pick the next unused numbers. Files currently run `001`–`156` with gaps (`090`, `100`, `122`, `124` were
    removed). Never reuse or rename an existing number; ids are used as `#f-NNN` anchors.
-2. Convert each original to WebP at `assets/images/photos/NNN.webp`: long side at most **1600px**, keep the aspect
-   ratio, RGB, quality around 80, strip EXIF/GPS. Existing files are 1080–1600px on the long side, mostly 100–600 KB (max ~780 KB).
-   Portrait 4:5 suits the wall best; other ratios get center-cropped in the grid but show whole in the viewer.
-3. Run `python3 scripts/make_photo_thumbs.py` from the repo root (needs Pillow). It writes the missing
-   `thumbs/NNN.webp` (640px wide) and `thumbs-400/NNN.webp` (400px wide). CI fails without both.
-4. Compute `color`, `w`, `h` and insert each entry into `_data/photos.yml` **at the position matching its hue**, not
-   at the end. There is no script for this in the repo; use something like:
+2. Convert each original (JPG/HEIC/PNG; keep originals out of the repo) to `assets/images/photos/NNN.webp`. Apply
+   the EXIF rotation first, or phone portraits come out sideways. Pillow drops EXIF/GPS when saving WebP.
 
    ```python
-   from PIL import Image
-   import colorsys
-   im = Image.open("assets/images/photos/157.webp").convert("RGB")
-   w, h = im.size
-   small = im.resize((64, 64)).quantize(colors=5)
-   pal = small.getpalette(); count, idx = max(small.getcolors())
-   r, g, b = pal[idx*3:idx*3+3]
-   hue, light, sat = colorsys.rgb_to_hls(r/255, g/255, b/255)
-   print(f'color: "#{r:02x}{g:02x}{b:02x}"  w: {w}  h: {h}  hue: {hue*360:.0f}  sat: {sat:.2f}')
+   from PIL import Image, ImageOps
+   im = ImageOps.exif_transpose(Image.open("ORIGINAL.jpg")).convert("RGB")
+   im.thumbnail((1600, 1600), Image.LANCZOS)   # long side at most 1600px, aspect kept
+   im.save("assets/images/photos/157.webp", "WEBP", quality=80, method=6)
+   print(im.size)
    ```
 
-   Then place it between the entries whose hue brackets its own. Low-saturation shots (sat below ~0.1: greys,
-   blacks, overcast) go in the grey block at the end, placed by lightness (lighter first). The sort is by eye, not
-   exact, so a few entries sit slightly out of strict hue order; leave existing entries where they are.
+   Existing files are 1080–1600px on the long side, median ~170 KB, max ~780 KB. Portrait 4:5 suits the wall
+   best; other ratios get center-cropped in the grid but show whole in the viewer. HEIC needs `pillow-heif`.
+3. Run `python3 scripts/make_photo_thumbs.py` from the repo root (needs Pillow). It writes the missing
+   `thumbs/NNN.webp` (640px wide) and `thumbs-400/NNN.webp` (400px wide). CI fails without both.
+4. Work out `color`, `w`, `h`. The original colour script is not in the repo (the `photos.yml` header predates
+   that), and the stored values cannot be reproduced exactly. This matches them closely enough to sort by (needs
+   numpy; median hue error ~2° against the stored colours, though a few photos are off by 30°+, hence the look-check):
+
+   ```python
+   import colorsys, numpy as np
+   from PIL import Image
+   im = Image.open("assets/images/photos/157.webp").convert("RGB")
+   a = np.asarray(im.resize((64, 64)), float).reshape(-1, 3)
+   chroma = a.max(1) - a.min(1)
+   vivid = a[chroma >= np.percentile(chroma, 75)].mean(0)   # colourful photos: mean of the most colourful quarter
+   plain = a.mean(0)                                         # grey-block photos: plain mean (matches stored exactly)
+   for name, c in (("vivid", vivid), ("plain", plain)):
+       h, l, s = colorsys.rgb_to_hls(*(c / 255))
+       print(name, "#%02x%02x%02x" % tuple(int(round(x)) for x in c), f"hue {h*360:.0f} light {l:.2f} sat {s:.2f}")
+   print("w:", im.width, "h:", im.height)
+   ```
+
+   Then look at the photo and decide:
+   - **Colourful** (a clear colour reads at thumbnail size): use the `vivid` colour. Insert it among entries whose
+     stored hue is closest, and within that run next to ones of similar lightness, so a bright tile does not land
+     beside a near-black one of the same hue. Compute hue/lightness of the stored `color`s to find the spot.
+   - **Near-neutral** (greys, black night shots, overcast, mostly white): use the `plain` colour and put it in the
+     grey block at the end, by lightness (lighter first).
+   No saturation number cleanly splits the two (the current grey block holds a few slightly tinted shots and the
+   colour run a few quite muted ones), so judge by eye. Leave existing entries where they are.
 5. Write an honest `alt` for every photo. Ask the owner for `place`/`date` if not known; omit rather than guess.
-6. Check locally or at least confirm the build passes. Do not touch `photos.js`/`photos.css` just to add photos.
+6. Build with the same Jekyll as Pages to check (the Gemfile's Jekyll 4 can differ):
+   `gem install github-pages` once, then `JEKYLL_NO_BUNDLER_REQUIRE=true PAGES_REPO_NWO=nabajitb/nabajitb.github.io jekyll build`.
+   Confirm `_site/photos/index.html` shows the new count and tile. Otherwise rely on the CI build on the PR.
+   Do not touch `photos.js`/`photos.css` just to add photos.
 
 Removing a photo: delete its entry, `NNN.webp`, `thumbs/NNN.webp` and `thumbs-400/NNN.webp`.
 
