@@ -27,11 +27,12 @@ this file is the fuller map.
 | `_layouts/blog_post.html` | Post page: meta line, auto table of contents (3+ headings), origin link, optional KaTeX (`math: true`) |
 | `_includes/pub.html` | One publication entry |
 | `index.md` | Home: profile, About, Currently, Bluesky Reading and Books lists |
-| `work.md` | Projects (thesis block + other projects), experience, education, skills |
+| `work.md` | Projects and experience (from `_data`), plus hand-written HTML for education, skills, leadership, volunteering and "Beyond the lab" |
 | `publications.md` | Book chapters (`_data/publications.yml`) and talks (`_data/talks.yml`) |
 | `blogs.md` | Writing index ("Writing" in nav, URL `/blogs/`) |
 | `photos.md` | Photo wall |
 | `projects/pik3ca-benchmark.md` | Master's thesis page, with its own CSS/JS and data |
+| `assets/thesis.pdf` | Full thesis, linked from the thesis page |
 | `cv.md` | `/cv/` redirects to `assets/Nabajit-Borah-CV.pdf` (replace the PDF, keep the name) |
 | `404.html` | "This page misfolded" page, protein animation in aggregate mode |
 | `feed.xml` | Replaces jekyll-feed's empty `/feed.xml` with the blogs feed |
@@ -106,8 +107,12 @@ Rules:
 - Paper grain overlay (`.grain`) sits over everything at low opacity.
 - Scroll reveals are added by JS (`.reveal` / `.visible`), so the page is fully visible without JS.
 - Respect `prefers-reduced-motion` in every animation you add.
-- Section headings are `## Name` inside `.page`; CSS draws their rule/marker. Lists of items use `.pub-item`
-  (titles, `[link]` brackets in mono).
+- Section headings are `## Name` inside `.page`. CSS numbers them automatically (`01`, `02`, ... via a counter), so
+  adding or removing a `##` renumbers the rest of the page. Use `###` for sub-headings that should not be numbered.
+- List rows (`.pub-item`: publications, talks, writing) are numbered `[1]`, `[2]` by a CSS counter, like references.
+  Links inside them get `[ ]` brackets in mono.
+- Chips use `<ul class="tag-list"><li>..</li></ul>`; side-by-side groups use `.skill-grid`; dated rows use
+  `.timeline-item` with `.timeline-header` / `.timeline-title` / `.timeline-date` / `.timeline-place`.
 
 ### Writing voice
 
@@ -141,7 +146,7 @@ Steps to add photos:
 1. Pick the next unused numbers. Files currently run `001`–`156` with gaps (`090`, `100`, `122`, `124` were
    removed). Never reuse or rename an existing number; ids are used as `#f-NNN` anchors.
 2. Convert each original to WebP at `assets/images/photos/NNN.webp`: long side at most **1600px**, keep the aspect
-   ratio, RGB, quality around 80, strip EXIF/GPS. Existing files are 1080–1600px on the long side, ~100–600 KB.
+   ratio, RGB, quality around 80, strip EXIF/GPS. Existing files are 1080–1600px on the long side, mostly 100–600 KB (max ~780 KB).
    Portrait 4:5 suits the wall best; other ratios get center-cropped in the grid but show whole in the viewer.
 3. Run `python3 scripts/make_photo_thumbs.py` from the repo root (needs Pillow). It writes the missing
    `thumbs/NNN.webp` (640px wide) and `thumbs-400/NNN.webp` (400px wide). CI fails without both.
@@ -171,16 +176,21 @@ Removing a photo: delete its entry, `NNN.webp`, `thumbs/NNN.webp` and `thumbs-40
 
 - **Project / experience / publication / talk**: edit the matching `_data/*.yml` (field comments at the top of each
   file). A project with `thesis:` set appears in the Theses block on `/work/`; others are compact rows.
-- **Currently line / About**: `index.md`.
+- **Currently line / About / profile photo**: `index.md` (photo is `assets/images/profile.webp`, 640x640 square).
+- **Education, skills, leadership, volunteering, languages, interests**: edit the HTML in `work.md` directly.
 - **CV**: replace `assets/Nabajit-Borah-CV.pdf`, same name.
 - **Writing**: posts are imported, not hand-written. `scripts/import_posts.py` pulls Medium (`@nabbo`) and Substack
   (`nabbo.substack.com`) RSS into `_blogs/<slug>.md` with images as WebP in `assets/images/blogs/<slug>/` plus
   `og.jpg`. Existing posts are skipped so hand edits survive. Post bodies are wrapped in `{% raw %}`. Substack posts
-  carry `canonical_url` to Substack and `sitemap: false`.
+  carry `canonical_url` to Substack and `sitemap: false`. Front matter fields: `title`, `date`, `tags`, `excerpt`,
+  `image` (the og.jpg), and `medium_url` or `substack_url` (drives the "read on ..." link). Add `math: true` for KaTeX.
 - **Reading / Books** (home): no repo change needed. They come live from Bluesky posts by `nabajitb.bsky.social`
   tagged `#reading` (book done: `#completed`), cached 2 minutes in the browser. Config in `_config.yml` `bluesky:`.
 - **Link preview cards**: `scripts/make_og.py` (thesis), default `assets/og.png`. Favicon via
-  `scripts/make_favicon.py`. Both need Fraunces + IBM Plex Mono TTFs passed with `--fonts DIR`.
+  `scripts/make_favicon.py` (needs `fonttools` + Pillow; favicon seal is `#c4412f`, a touch brighter so it holds up at
+  16px). Both take a folder of Google Fonts TTFs with `--fonts DIR` (Fraunces; the OG card also needs IBM Plex Mono).
+- **Protein background** (`protein.js`): ubiquitin (1UBQ) Cα traces drawn as tubes coloured by `--ss-*`, moving as
+  boids. Clicking empty page space gathers the school there for 6s. It re-reads colours on `themechange`.
 - **PIK3CA thesis page**: heavy custom page. Charts are hand-built SVG from `assets/data/pik3ca/*.json`; 3D viewers
   use py2Dmol pinned to a commit from jsDelivr. Trajectory data is produced by `scripts/pik3ca_traj/` (see README).
   Don't restyle it with global changes without checking it.
@@ -194,4 +204,4 @@ Removing a photo: delete its entry, `NNN.webp`, `thumbs/NNN.webp` and `thumbs-40
 - Accessibility is checked: alt text, `aria-label`s on icon links, focus-visible styles, skip link, keyboard support.
 - Keep CSS for one page in that page's own file (`extra_css`), global things in `style.css`.
 - The owner's email appears intentionally on the home page (copy button); don't add it elsewhere.
-- Large binaries: keep photos under ~600 KB each; don't commit originals (JPG/HEIC/RAW) or `_site/`.
+- Large binaries: keep photos under ~800 KB each; don't commit originals (JPG/HEIC/RAW) or `_site/`.
